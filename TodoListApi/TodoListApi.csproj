@@ -15,4 +15,7 @@
     <PackageReference Include="Rocket.EntityFrameworkCore.InMemory" Version="5.0.0.26" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\ValuesController.cs" />
+  </ItemGroup>
 </Project>
