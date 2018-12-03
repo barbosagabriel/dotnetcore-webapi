@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TodoListApi.Models;
 using Microsoft.EntityFrameworkCore;
+using TodoListApi.Extensions;
+using NLog;
+using System.IO;
 
 namespace TodoListApi
 {
@@ -18,6 +21,7 @@ namespace TodoListApi
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -26,7 +30,15 @@ namespace TodoListApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            //services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+
+            services.ConfigureCors();
+            services.ConfigureIISIntegration();
+            services.ConfigureLoggerService();
+            services.ConfigureMySqlContext(Configuration);
+
+            services.ConfigureToDoItemRepository();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -42,7 +54,9 @@ namespace TodoListApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
