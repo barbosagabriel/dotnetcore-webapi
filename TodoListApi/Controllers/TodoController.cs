@@ -57,12 +57,14 @@ namespace TodoListApi.Controllers
         //}
 
         //[HttpPost]
-        //public IActionResult Create(TodoItem item)
+        //public IActionResult Create(ToDoItem item)
         //{
         //    _logger.LogInfo("[POST] Create called.");
 
-        //    _context.TodoItems.Add(item);
-        //    _context.SaveChanges();
+        //    //_context.TodoItems.Add(item);
+        //    //_context.SaveChanges();
+
+        //    _toDoItemRepository.Create(item);
 
         //    return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
         //}
